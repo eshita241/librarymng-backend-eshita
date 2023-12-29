@@ -3,6 +3,7 @@ package main
 import (
 	"librarymng-backend/database"
 	"librarymng-backend/routes/books"
+	"librarymng-backend/routes/issues"
 	"librarymng-backend/routes/users"
 	"log"
 
@@ -15,6 +16,8 @@ func SetupRoutes(app *fiber.App) {
 	app.Delete("/api/bookdel/:id", books.DeleteBook)
 	app.Get("/api/bookget/:id", books.GetBook)
 	app.Post("/users", users.CreateUser)
+	app.Post("/api/issue", issues.AddIssue)
+	app.Get("/api/issueget/:id", issues.GetIssueHistory)
 }
 
 func main() {
