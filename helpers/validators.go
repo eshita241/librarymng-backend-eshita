@@ -10,3 +10,7 @@ func ValidateBook(Book models.Book) error {
 	_, err := govalidator.ValidateStruct(Book)
 	return err
 }
+func ValidateUser(user models.User) error {
+	_, err := govalidator.ValidateStruct(user)
+	return err
+}
