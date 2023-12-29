@@ -2,14 +2,14 @@ package main
 
 import (
 	"librarymng-backend/database"
-
+	"librarymng-backend/routes/users"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
 )
 
 func SetupRoutes(app *fiber.App) {
-
+	app.Post("/users", users.CreateUser)
 }
 
 func main() {
