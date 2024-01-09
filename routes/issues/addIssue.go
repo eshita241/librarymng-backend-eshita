@@ -5,6 +5,7 @@ import (
 	"librarymng-backend/helpers"
 	"librarymng-backend/models"
 	"log"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -25,6 +26,9 @@ func AddIssue(c *fiber.Ctx) error {
 		log.Printf("Error validating issue: %v\n", err)
 		return c.Status(400).SendString("Error validating issue")
 	}
+
+	// set ReturnDate based on TransactionDate
+	issue.ReturnDate = issue.TransactionDate.Add(24 * time.Hour)
 
 	// save the book in database
 	result := database.Database.Db.Create(&issue)
