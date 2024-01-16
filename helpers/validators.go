@@ -14,3 +14,8 @@ func ValidateUser(user models.User) error {
 	_, err := govalidator.ValidateStruct(user)
 	return err
 }
+
+func ValidateIssue(issue models.Issue) error {
+	_, err := govalidator.ValidateStruct(issue)
+	return err
+}
