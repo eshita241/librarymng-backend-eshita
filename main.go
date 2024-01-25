@@ -16,6 +16,7 @@ func SetupRoutes(app *fiber.App) {
 	// User Routes
 	app.Post("/users", users.CreateUser)
 	app.Delete("/usersdel/:id", users.DeleteUser)
+	app.Get("/userget/:id", users.GetUser)
 
 	// Book Routes
 	app.Post("/api/book", books.AddBook)
