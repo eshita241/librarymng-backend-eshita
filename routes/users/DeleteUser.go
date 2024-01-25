@@ -31,7 +31,7 @@ func DeleteUser(c *fiber.Ctx) error {
 	}
 
 	responseMessage := fmt.Sprintf("User with id: %v deleted", userId)
-	log.Printf(responseMessage)
+	log.Println(responseMessage)
 
 	return c.Status(200).SendString(responseMessage)
 }
