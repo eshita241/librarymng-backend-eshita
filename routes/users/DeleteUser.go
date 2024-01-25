@@ -27,11 +27,10 @@ func DeleteUser(c *fiber.Ctx) error {
 
 	if result.RowsAffected == 0 {
 		log.Printf("error deleting user, userid: %v not found\n", userId)
-		return c.Status(404).SendString("Booking not found")
+		return c.Status(404).SendString("user not found")
 	}
 
 	responseMessage := fmt.Sprintf("User with id: %v deleted", userId)
-	log.Printf(responseMessage)
-
+	log.Println(responseMessage)
 	return c.Status(200).SendString(responseMessage)
 }
