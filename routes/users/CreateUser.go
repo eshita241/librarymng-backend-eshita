@@ -13,7 +13,6 @@ import (
 // CreateUser handles the creation of a user in the database
 // Accepts a JSON object containing the user information
 // Returns an HTTP status code and a message indicating the result of the operation
-//
 // Parameters:
 //   - c: Fiber context
 //
@@ -35,7 +34,6 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Error validating user")
 	}
 
-	// ...
 	// Validate the user details
 	if user.Role == "" {
 		log.Printf("Missing user role\n")
@@ -48,8 +46,6 @@ func CreateUser(c *fiber.Ctx) error {
 		log.Printf("Invalid user role: %v\n", user.Role)
 		return c.Status(400).SendString("Invalid user role")
 	}
-
-	// ...
 
 	// Create the user in the database
 	result := database.Database.Db.Create(&user)
