@@ -1,14 +1,15 @@
-package main
+package main //In Go, a package is a way to organize and reuse code. It is a collection of Go source files that are organized together in a directory.
 
-// postgres://postgres:Itba@1234..78@localhost:5432/librarymng?sslmode=disable
 import (
 	"librarymng-backend/database"
+	"librarymng-backend/initializers"
 	"librarymng-backend/routes/books"
 	"librarymng-backend/routes/issues"
 	"librarymng-backend/routes/users"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 func SetupRoutes(app *fiber.App) {
@@ -33,15 +34,26 @@ func SetupRoutes(app *fiber.App) {
 	app.Put("/api/issueupfs/:id", issues.UpdateFineStatus)
 }
 
+func init() { //connect database
+	config, err := initializers.LoadConfig(".")
+	if err != nil {
+		log.Fatalln("Failed to load environment variables! \n", err.Error())
+	}
+	database.ConnectToDB(&config)
+}
 func main() {
-	app := fiber.New()
+	app := fiber.New() //The line app := fiber.New() creates a new instance of a Fiber application.
+	//Fiber is a web framework for Go (Golang) that is designed to be fast, flexible, and easy to use. It is built on top of Fasthttp, which is a high-performance HTTP server implementation for Go.
+	app.Use(logger.New()) //app.Use() attaches middleware to middleware stack; logger.New sets up logger middlware
 
-	database.ConnectToDB()
+	SetupRoutes(app) //connect all the routes of app
 
-	SetupRoutes(app)
-
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World 👋!")
+	app.Get("/api/healthchecker", func(c *fiber.Ctx) error { //basic router for server side connection check
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"status":  "success",
+			"message": "Welcome to Golang, Fiber, and GORM",
+		})
 	})
-	log.Fatal(app.Listen(":3000"))
+
+	log.Fatal(app.Listen(":8000")) //running on port 8000
 }

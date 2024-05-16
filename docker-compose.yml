@@ -1,0 +1,23 @@
+version: '3'  # Specifies the version of the Docker Compose file format
+
+services:
+  postgres:
+    image: postgres:latest  # Use the latest PostgreSQL image
+    container_name: postgres  # Name the container "postgres"
+    ports:
+      - '6500:5432'  # Map port 6500 on the host to port 5432 in the container
+    volumes:
+      - progresDB:/data/postgres  # Mount a volume named "progresDB" at /data/postgres in the container
+    env_file:
+      - ./.env  # Load environment variables from the .env file
+
+  pgAdmin:
+    image: dpage/pgadmin4  # Use the pgAdmin 4 image
+    container_name: pgAdmin  # Name the container "pgAdmin"
+    env_file:
+      - ./.env  # Load environment variables from the .env file
+    ports:
+      - "5050:80"  # Map port 5050 on the host to port 80 in the container
+
+volumes:
+  progresDB:  # Declare a named volume "progresDB" for persistent storage
