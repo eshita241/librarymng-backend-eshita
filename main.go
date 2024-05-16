@@ -57,3 +57,25 @@ func main() {
 
 	log.Fatal(app.Listen(":8000")) //running on port 8000
 }
+
+/*
+LF (Line Feed):
+LF is a control character used to start a new line in text files. It is commonly used on Unix and Unix-like systems (including Linux and macOS) as the standard line ending character.
+CRLF (Carriage Return + Line Feed):
+CRLF consists of two control characters: carriage return followed by line feed. It is the standard line ending sequence used in text files on Windows systems.
+
+
+Middleware is a software architectural pattern that allows you to encapsulate and separate concerns in your application by adding layers of functionality to the request-response cycle.
+In web development, middleware functions are used to process HTTP requests and responses before they reach the final handler.
+Modularity, Chain of Responsibility, Request Processing
+
+
+Semantic Versioning (SemVer):
+Semantic versioning is a versioning scheme that specifies how version numbers are assigned and incremented for software releases. It follows the format MAJOR.MINOR.PATCH, where:
+MAJOR is incremented for incompatible API changes,
+MINOR is incremented for backward-compatible feature additions, and
+PATCH is incremented for backward-compatible bug fixes.
+++incompatible Warning:
+The ++incompatible notation indicates that the dependency does not adhere to semantic versioning conventions.
+This warning is shown when the Go module system detects that the versioning scheme of a dependency is incompatible with the expected semantic versioning format.
+*/

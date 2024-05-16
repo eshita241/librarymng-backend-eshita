@@ -37,3 +37,22 @@ func LoadConfig(path string) (config Config, err error) {
 	err = viper.Unmarshal(&config) // Unmarshal the config values into the Config struct
 	return                         // Return the config struct and any error that occurred
 }
+
+/*
+PostgreSQL is a powerful open-source relational database management system (RDBMS). It is used to store and manage structured data in tables with relationships between them.
+The official PostgreSQL Docker image provides a reliable and easy way to deploy PostgreSQL databases as Docker containers. It includes the PostgreSQL server and necessary tools to manage databases.
+pgAdmin is a popular open-source web-based administration tool for PostgreSQL. It provides a graphical interface for managing databases, running queries, creating and modifying database objects, and monitoring server activity.
+The dpage/pgadmin4 Docker image provides a pre-configured pgAdmin instance that can be easily deployed as a Docker container. It includes pgAdmin along with a web server and other necessary components.
+
+Using Docker images for PostgreSQL and pgAdmin; instead of official offers several benefits:
+Consistency:
+Docker images provide consistent environments across different systems. You can ensure that the same versions of PostgreSQL and pgAdmin are used in development, testing, and production environments.
+Isolation:
+Docker containers provide isolation for applications and services. Each container runs in its own environment, preventing conflicts with other software installed on the host system.
+Portability:
+Docker images can be easily shared and distributed. You can package your application along with its dependencies (including PostgreSQL and pgAdmin) into a single Docker image, making it portable across different platforms and environments.
+Ease of Deployment:
+Docker simplifies the deployment process by providing a consistent way to package, distribute, and run applications. With Docker Compose, you can define multi-container applications and manage them with a single command.
+Resource Efficiency:
+Docker containers are lightweight and consume fewer resources compared to virtual machines. They can be quickly started, stopped, and scaled as needed, making efficient use of system resources.
+*/

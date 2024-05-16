@@ -56,8 +56,7 @@ func ConnectToDB(config *initializers.Config) { //takes Config struct
 	Port
 	Database name
 	Optional parameters (like SSL mode, timeouts, etc.)
-
-	connectionString is a more generic term used in many database connectivity libraries, including ADO.NET, JDBC, and many others.
+	connectionString: It is a more generic term used in many database connectivity libraries, including ADO.NET, JDBC, and many others.
 	It is a string that contains all the necessary information to connect to a database.
-	 Unlike a DSN, a connection string is typically specified directly in the application's code or configuration files and includes all the connection details inline.
+	Unlike a DSN, a connection string is typically specified directly in the application's code or configuration files and includes all the connection details inline.
 */
