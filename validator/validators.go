@@ -1,4 +1,4 @@
-package helpers
+package validator
 
 import (
 	"librarymng-backend/models" // Importing the models package

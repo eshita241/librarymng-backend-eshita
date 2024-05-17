@@ -3,8 +3,8 @@ package users
 import (
 	"errors"
 	"librarymng-backend/database"
-	"librarymng-backend/helpers"
 	"librarymng-backend/models"
+	"librarymng-backend/validator"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -35,7 +35,7 @@ func UpdateUser(c *fiber.Ctx) error {
 		return c.Status(500).SendString("Error fetching user")
 	}
 
-	if err := helpers.ValidateUser(userInput); err != nil {
+	if err := validator.ValidateUser(userInput); err != nil {
 		log.Printf("Error validating user: %v\n", err)
 		return c.Status(400).SendString("Error validating user")
 	}

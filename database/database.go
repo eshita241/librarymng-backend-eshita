@@ -36,13 +36,12 @@ func ConnectToDB(config *initializers.Config) { //takes Config struct
 	db.Logger = logger.Default.LogMode(logger.Info)
 	//This line configures GORM to use its default logger in Info mode. This means that GORM will log detailed information about the database operations it performs, such as executed SQL queries, which can be useful for debugging and monitoring.
 
-	if os.Getenv("SHOULD_MIGRATE") == "TRUE" { //perform database migrations based on an environment variable,
-		log.Println("Running DB Migrations...")
-		if err := db.AutoMigrate(&models.Book{}, &models.User{}, &models.Issue{}); err != nil { //The AutoMigrate method is called with the models Book, User, and Issue. This method automatically creates or updates the database tables to match the provided model definitions. It ensures that the schema is up-to-date with the current state of the application models.
-			log.Println("Error running DB Migrations:", err)
-		} else {
-			log.Println("DB Migrations completed")
-		}
+	log.Println("Running DB Migrations...")
+	if err := db.AutoMigrate(&models.Book{}, &models.User{}, &models.Auth{}, &models.Issue{}); err != nil { //The AutoMigrate method is called with the models Book, User, and Issue. This method automatically creates or updates the database tables to match the provided model definitions. It ensures that the schema is up-to-date with the current state of the application models.
+		log.Println("Error running DB Migrations:", err)
+		os.Exit(1)
+	} else {
+		log.Println("DB Migrations completed")
 	}
 
 	Database = DbInstance{Db: db}

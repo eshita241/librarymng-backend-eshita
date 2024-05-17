@@ -2,8 +2,8 @@ package books
 
 import (
 	"librarymng-backend/database"
-	"librarymng-backend/helpers"
 	"librarymng-backend/models"
+	"librarymng-backend/validator"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -21,7 +21,7 @@ func AddBook(c *fiber.Ctx) error {
 	}
 
 	// validates book, display error if not validated
-	if err := helpers.ValidateBook(book); err != nil {
+	if err := validator.ValidateBook(book); err != nil {
 		log.Printf("Error validating book: %v\n", err)
 		return c.Status(400).SendString("Error validating book")
 	}

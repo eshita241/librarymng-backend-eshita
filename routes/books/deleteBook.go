@@ -3,8 +3,8 @@ package books
 import (
 	"errors"
 	"librarymng-backend/database"
-	"librarymng-backend/helpers"
 	"librarymng-backend/models"
+	"librarymng-backend/validator"
 	"log"
 	"strconv"
 
@@ -24,7 +24,7 @@ func DeleteBook(c *fiber.Ctx) error {
 	var book models.Book
 
 	// validates book, display error if not validated
-	if err := helpers.ValidateBook(book); err != nil {
+	if err := validator.ValidateBook(book); err != nil {
 		log.Printf("Error validating book: %v\n", err)
 		return c.Status(400).SendString("Error validating book")
 	}

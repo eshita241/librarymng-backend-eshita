@@ -3,8 +3,8 @@ package users
 import (
 	"errors"
 	"librarymng-backend/database"
-	"librarymng-backend/helpers"
 	"librarymng-backend/models"
+	"librarymng-backend/validator"
 	"log"
 	"strconv"
 
@@ -22,7 +22,7 @@ func GetUser(c *fiber.Ctx) error {
 
 	var user models.User
 
-	if err := helpers.ValidateUser(user); err != nil {
+	if err := validator.ValidateUser(user); err != nil {
 		log.Printf("error validating user: %v\n", err)
 		return c.Status(400).SendString("error validating user")
 	}

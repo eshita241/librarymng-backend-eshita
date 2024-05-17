@@ -4,8 +4,8 @@ package issues
 
 import (
 	"librarymng-backend/database"
-	"librarymng-backend/helpers"
 	"librarymng-backend/models"
+	"librarymng-backend/validator"
 	"log"
 
 	"github.com/gofiber/fiber/v2"
@@ -23,7 +23,7 @@ func UpdateIssue(c *fiber.Ctx) error {
 	}
 
 	// validates book, display error if not validated
-	if err := helpers.ValidateIssue(updatedIssue); err != nil {
+	if err := validator.ValidateIssue(updatedIssue); err != nil {
 		log.Printf("Error validating issue: %v\n", err)
 		return c.Status(400).SendString("Error validating Issue")
 	}

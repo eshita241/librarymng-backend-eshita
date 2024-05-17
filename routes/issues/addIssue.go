@@ -2,8 +2,8 @@ package issues
 
 import (
 	"librarymng-backend/database"
-	"librarymng-backend/helpers"
 	"librarymng-backend/models"
+	"librarymng-backend/validator"
 	"log"
 	"time"
 
@@ -22,7 +22,7 @@ func AddIssue(c *fiber.Ctx) error {
 	}
 
 	// validates issue, display error if not validated
-	if err := helpers.ValidateIssue(issue); err != nil {
+	if err := validator.ValidateIssue(issue); err != nil {
 		log.Printf("Error validating issue: %v\n", err)
 		return c.Status(400).SendString("Error validating issue")
 	}
