@@ -44,27 +44,33 @@ func FilterUserRecord(auth *Auth) AuthResponse {
 	}
 }
 
+// Initialize a new validator instance.
 var validate = validator.New()
 
+// ErrorResponse represents a structured validation error message.
 type ErrorResponse struct {
-	Field string `json:"field"`
-	Tag   string `json:"tag"`
-	Value string `json:"value,omitempty"`
+	Field string `json:"field"`           // The field that caused the validation error.
+	Tag   string `json:"tag"`             // The validation rule that failed.
+	Value string `json:"value,omitempty"` // The value that caused the validation error (optional).
 }
 
+// ValidateStruct takes any payload struct and returns a slice of validation error messages.
 func ValidateStruct[T any](payload T) []*ErrorResponse {
-	var errors []*ErrorResponse
+	var errors []*ErrorResponse // Slice to hold the validation errors.
+
+	// Perform the validation on the payload struct.
 	err := validate.Struct(payload)
 	if err != nil {
+		// Iterate over the validation errors.
 		for _, err := range err.(validator.ValidationErrors) {
 			var element ErrorResponse
-			element.Field = err.StructNamespace()
-			element.Tag = err.Tag()
-			element.Value = err.Param()
-			errors = append(errors, &element)
+			element.Field = err.StructNamespace() // The field name causing the error.
+			element.Tag = err.Tag()               // The validation tag that failed.
+			element.Value = err.Param()           // The parameter associated with the validation tag (if any).
+			errors = append(errors, &element)     // Append the error details to the errors slice.
 		}
 	}
-	return errors
+	return errors // Return the slice of validation errors.
 }
 
 type SignUpInput struct {

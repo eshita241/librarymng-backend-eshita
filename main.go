@@ -9,6 +9,7 @@ import (
 	"log"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
@@ -45,6 +46,13 @@ func main() {
 	app := fiber.New() //The line app := fiber.New() creates a new instance of a Fiber application.
 	//Fiber is a web framework for Go (Golang) that is designed to be fast, flexible, and easy to use. It is built on top of Fasthttp, which is a high-performance HTTP server implementation for Go.
 	app.Use(logger.New()) //app.Use() attaches middleware to middleware stack; logger.New sets up logger middlware
+
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "http://localhost:3000",
+		AllowHeaders:     "Origin, Content-Type, Accept",
+		AllowMethods:     "GET, POST, PUT, DELETE",
+		AllowCredentials: true,
+	}))
 
 	SetupRoutes(app) //connect all the routes of app
 
