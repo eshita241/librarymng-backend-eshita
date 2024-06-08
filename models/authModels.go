@@ -8,7 +8,7 @@ import (
 )
 
 type Auth struct {
-	ID        *uuid.UUID `gorm:"type:uuid;default:uuid_generate_v4();primary_key"`
+	ID        *uint `gorm:"type:uint;default:uint_generate_v4();primary_key"`
 	Name      string     `gorm:"type:varchar(100);not null"`
 	Email     string     `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Password  string     `gorm:"type:varchar(100);not null"`
@@ -21,7 +21,7 @@ type Auth struct {
 }
 
 type AuthResponse struct {
-	ID        uuid.UUID `json:"id,omitempty"`
+	ID        *uint `json:"id,omitempty"`
 	Name      string    `json:"name,omitempty"`
 	Email     string    `json:"email,omitempty"`
 	Role      string    `json:"role,omitempty"`

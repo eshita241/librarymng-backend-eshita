@@ -12,7 +12,7 @@ import (
 )
 
 func UpdateUser(c *fiber.Ctx) error {
-	var userInput models.User
+	var userInput models.Auth
 	err := c.BodyParser(&userInput)
 	if err != nil {
 		log.Printf("Error parsing JSON: %v\n", err)
