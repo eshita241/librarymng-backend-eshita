@@ -4,11 +4,10 @@ import (
 	"time"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/google/uuid"
 )
 
 type Auth struct {
-	ID        *uint `gorm:"type:uint;default:uint_generate_v4();primary_key"`
+	ID        *uint `gorm:"type:uint;primary_key"`
 	Name      string     `gorm:"type:varchar(100);not null"`
 	Email     string     `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Password  string     `gorm:"type:varchar(100);not null"`
@@ -33,7 +32,7 @@ type AuthResponse struct {
 
 func FilterUserRecord(auth *Auth) AuthResponse {
 	return AuthResponse{
-		ID:        *auth.ID,
+		ID:        auth.ID,
 		Name:      auth.Name,
 		Email:     auth.Email,
 		Role:      *auth.Role,

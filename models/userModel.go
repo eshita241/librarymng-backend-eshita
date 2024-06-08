@@ -1,4 +1,4 @@
-{/*package models
+package models
 
 import (
 	"gorm.io/gorm"
@@ -13,4 +13,3 @@ type User struct {
 	Password string `gorm:"size:100;not null" json:"password"`
 	Role     string `gorm:"size:50;not null" json:"role"` // Ensure this matches the database schema
 }
-*/}

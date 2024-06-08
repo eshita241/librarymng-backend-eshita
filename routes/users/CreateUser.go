@@ -19,6 +19,7 @@ import (
 //
 // Returns:
 //   - error: An error message indicating the result of the operation and an HTTP status code
+// CreateUser handles the creation of a user in the database
 func CreateUser(c *fiber.Ctx) error {
 
 	var user models.Auth
@@ -35,25 +36,20 @@ func CreateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Error validating user")
 	}
 
-	// ...
-	// Validate the user details
-	if user.Role == "" {
-		log.Printf("Missing user role\n")
-		return c.Status(400).SendString("Missing user role")
+	// Ensure a role is provided
+	if user.Role == nil {
+		defaultRole := "member" // Set your default role
+		user.Role = &defaultRole
 	}
 
-	// Ensure a role is provided
-	user.Role = strings.ToLower(user.Role)
-	if user.Role != "librarian" && user.Role != "staff" && user.Role != "member" {
-		log.Printf("Invalid user role: %v\n", user.Role)
+	userRole := strings.ToLower(*user.Role)
+	if userRole != "librarian" && userRole != "staff" && userRole != "member" {
+		log.Printf("Invalid user role: %v\n", userRole)
 		return c.Status(400).SendString("Invalid user role")
 	}
 
-	// ...
-
 	// Create the user in the database
 	result := database.Database.Db.Create(&user)
-
 	if result.Error != nil {
 		log.Printf("Error creating user: %v\n", result.Error)
 		return c.Status(500).SendString("Error creating user: " + result.Error.Error())
@@ -62,3 +58,4 @@ func CreateUser(c *fiber.Ctx) error {
 	log.Printf("User with ID %v created\n", user.ID)
 	return c.Status(200).JSON(user)
 }
+

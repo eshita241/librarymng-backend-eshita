@@ -14,7 +14,7 @@ func ValidateBook(Book models.Book) error {
 }
 
 // ValidateUser validates a User instance using the govalidator package.
-func ValidateUser(user models.User) error {
+func ValidateUser(user models.Auth) error {
 	// Validate the User struct using govalidator.ValidateStruct
 	_, err := govalidator.ValidateStruct(user)
 	return err // Return any validation error

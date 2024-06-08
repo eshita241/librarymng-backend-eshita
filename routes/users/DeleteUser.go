@@ -18,7 +18,7 @@ func DeleteUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Invalid user id")
 	}
 
-	result := database.Database.Db.Delete(&models.AuthResponse{}, userId)
+	result := database.Database.Db.Delete(&models.Auth{}, userId)
 
 	if result.Error != nil {
 		log.Printf("error deleting user: %v\n", result.Error)

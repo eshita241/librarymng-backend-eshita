@@ -19,12 +19,12 @@ func UpdateUser(c *fiber.Ctx) error {
 		return c.Status(400).SendString("Error parsing JSON")
 	}
 
-	if userInput.ID == 0 {
-		log.Printf("Invalid user ID provided\n")
-		return c.Status(400).SendString("Invalid user ID provided")
-	}
+	// if userInput.ID == 0 {
+	// 	log.Printf("Invalid user ID provided\n")
+	// 	return c.Status(400).SendString("Invalid user ID provided")
+	// }
 
-	var updatedUser models.User
+	var updatedUser models.Auth
 	resultant := database.Database.Db.First(&updatedUser, userInput.ID)
 	if resultant.Error != nil {
 		if errors.Is(resultant.Error, gorm.ErrRecordNotFound) {
