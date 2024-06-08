@@ -21,7 +21,7 @@ import (
 //   - error: An error message indicating the result of the operation and an HTTP status code
 func CreateUser(c *fiber.Ctx) error {
 
-	var user models.User
+	var user models.Auth
 	err := c.BodyParser(&user) // Parse the request body into the User struct
 
 	if err != nil {

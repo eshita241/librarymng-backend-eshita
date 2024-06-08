@@ -20,7 +20,7 @@ func GetUser(c *fiber.Ctx) error {
 		return c.Status(400).JSON(fiber.Map{"error": "Invalid user ID"})
 	}
 
-	var user models.User
+	var user models.Auth
 
 	if err := validator.ValidateUser(user); err != nil {
 		log.Printf("error validating user: %v\n", err)
