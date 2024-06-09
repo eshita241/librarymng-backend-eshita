@@ -7,7 +7,7 @@ import (
 )
 
 type Auth struct {
-	ID        *uint `gorm:"type:uint;primary_key"`
+	ID        *uint      `gorm:"type:uint;primary_key"`
 	Name      string     `gorm:"type:varchar(100);not null"`
 	Email     string     `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Password  string     `gorm:"type:varchar(100);not null"`
@@ -20,7 +20,7 @@ type Auth struct {
 }
 
 type AuthResponse struct {
-	ID        *uint `json:"id,omitempty"`
+	ID        *uint     `json:"id,omitempty"`
 	Name      string    `json:"name,omitempty"`
 	Email     string    `json:"email,omitempty"`
 	Role      string    `json:"role,omitempty"`
