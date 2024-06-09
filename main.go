@@ -77,6 +77,7 @@ func SetupRoutes(app *fiber.App) {
 	app.Get("/api/bookget/:id", func(c *fiber.Ctx) error {
 		return books.GetBook(c, cacheInstance)
 	})
+	app.Get("/api/books/search", books.SearchBooks)
 
 	// Issue Routes
 	app.Post("/api/issue", issues.AddIssue)
