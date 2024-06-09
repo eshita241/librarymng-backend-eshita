@@ -19,6 +19,7 @@ import (
 //
 // Returns:
 //   - error: An error message indicating the result of the operation and an HTTP status code
+//
 // CreateUser handles the creation of a user in the database
 func CreateUser(c *fiber.Ctx) error {
 
@@ -43,7 +44,7 @@ func CreateUser(c *fiber.Ctx) error {
 	}
 
 	userRole := strings.ToLower(*user.Role)
-	if userRole != "librarian" && userRole != "staff" && userRole != "member" {
+	if userRole != "librarian" && userRole != "member" {
 		log.Printf("Invalid user role: %v\n", userRole)
 		return c.Status(400).SendString("Invalid user role")
 	}
@@ -58,4 +59,3 @@ func CreateUser(c *fiber.Ctx) error {
 	log.Printf("User with ID %v created\n", user.ID)
 	return c.Status(200).JSON(user)
 }
-
