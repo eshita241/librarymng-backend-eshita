@@ -3,36 +3,20 @@ package main //In Go, a package is a way to organize and reuse code. It is a col
 import (
 	"librarymng-backend/database"
 	"librarymng-backend/initializers"
+	"librarymng-backend/middleware"
 	"librarymng-backend/routes/books"
 	"librarymng-backend/routes/issues"
 	"librarymng-backend/routes/users"
 	"log"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/patrickmn/go-cache"
 )
 
-func SetupRoutes(app *fiber.App) {
-	// User Routes
-	app.Post("/users", users.CreateUser)
-	app.Delete("/usersdel/:id", users.DeleteUser)
-	app.Get("/userget/:id", users.GetUser)
-	app.Put("/userupdate/:id", users.UpdateUser)
-
-	// Book Routes
-	app.Post("/api/book", books.AddBook)
-	app.Put("/api/bookup/:id", books.UpdateBook)
-	app.Delete("/api/bookdel/:id", books.DeleteBook)
-	app.Get("/api/bookget/:id", books.GetBook)
-
-	// Issue Routes
-	app.Post("/api/issue", issues.AddIssue)
-	app.Get("/api/issuegethis/:id", issues.GetIssueHistory)
-	app.Get("/api/issuegetid/:id", issues.GetIssue)
-	app.Put("/api/issueup/:id", issues.UpdateIssue)
-	app.Put("/api/issueupfs/:id", issues.UpdateFineStatus)
-}
+var cacheInstance *cache.Cache
 
 func init() { //connect database
 	config, err := initializers.LoadConfig(".")
@@ -46,12 +30,18 @@ func main() {
 	//Fiber is a web framework for Go (Golang) that is designed to be fast, flexible, and easy to use. It is built on top of Fasthttp, which is a high-performance HTTP server implementation for Go.
 	app.Use(logger.New()) //app.Use() attaches middleware to middleware stack; logger.New sets up logger middlware
 
+	cacheInstance = cache.New(10*time.Minute, 20*time.Minute)
+
+	//cache := cache.New(10*time.Minute, 20*time.Minute) // setting default expiration time and clearance time.
+
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "http://localhost:3000",
 		AllowHeaders:     "Origin, Content-Type, Accept",
 		AllowMethods:     "GET, POST, PUT, DELETE",
 		AllowCredentials: true,
 	}))
+
+	app.Use(middleware.CacheMiddleware(cacheInstance))
 
 	SetupRoutes(app) //connect all the routes of app
 
@@ -63,6 +53,29 @@ func main() {
 	})
 
 	log.Fatal(app.Listen(":8000")) //running on port 8000
+}
+
+func SetupRoutes(app *fiber.App) {
+	// User Routes
+	app.Post("/users", users.CreateUser)
+	app.Delete("/usersdel/:id", users.DeleteUser)
+	app.Get("/userget/:id", users.GetUser)
+	app.Put("/userupdate/:id", users.UpdateUser)
+
+	// Book Routes
+	app.Post("/api/book", books.AddBook)
+	app.Put("/api/bookup/:id", books.UpdateBook)
+	app.Delete("/api/bookdel/:id", books.DeleteBook)
+	app.Get("/api/bookget/:id", func(c *fiber.Ctx) error {
+		return books.GetBook(c, cacheInstance)
+	})
+
+	// Issue Routes
+	app.Post("/api/issue", issues.AddIssue)
+	app.Get("/api/issuegethis/:id", issues.GetIssueHistory)
+	app.Get("/api/issuegetid/:id", issues.GetIssue)
+	app.Put("/api/issueup/:id", issues.UpdateIssue)
+	app.Put("/api/issueupfs/:id", issues.UpdateFineStatus)
 }
 
 /*
