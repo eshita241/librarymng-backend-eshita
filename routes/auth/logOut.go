@@ -3,7 +3,7 @@ package auth
 import (
 	"time"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 )
 
 // LogoutUser is a handler function to log out a user by expiring their authentication token.

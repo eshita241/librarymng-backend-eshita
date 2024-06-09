@@ -4,6 +4,7 @@ import (
 	"librarymng-backend/database"
 	"librarymng-backend/initializers"
 	"librarymng-backend/middleware"
+	"librarymng-backend/routes/auth"
 	"librarymng-backend/routes/books"
 	"librarymng-backend/routes/issues"
 	"librarymng-backend/routes/users"
@@ -56,6 +57,13 @@ func main() {
 }
 
 func SetupRoutes(app *fiber.App) {
+	//Auth Routes
+	app.Route("/auth", func(router fiber.Router) {
+		router.Post("/register", auth.SignUpUser)
+		router.Post("/login", auth.SignInUser)
+		router.Get("/logout", middleware.DeserializeUser, auth.LogoutUser)
+	})
+
 	// User Routes
 	app.Post("/users", users.CreateUser)
 	app.Delete("/usersdel/:id", users.DeleteUser)

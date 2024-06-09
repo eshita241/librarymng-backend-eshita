@@ -5,7 +5,7 @@ import (
 	"librarymng-backend/models"
 	"strings"
 
-	"github.com/gofiber/fiber"
+	"github.com/gofiber/fiber/v2"
 	"golang.org/x/crypto/bcrypt"
 )
 
