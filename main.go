@@ -1,6 +1,7 @@
 package main //In Go, a package is a way to organize and reuse code. It is a collection of Go source files that are organized together in a directory.
 
 import (
+	"librarymng-backend/authorization"
 	"librarymng-backend/database"
 	"librarymng-backend/initializers"
 	"librarymng-backend/middleware"
@@ -63,6 +64,7 @@ func SetupRoutes(app *fiber.App) {
 		router.Post("/login", auth.SignInUser)
 		router.Get("/logout", middleware.DeserializeUser, auth.LogoutUser)
 	})
+	app.Get("/users/me", middleware.DeserializeUser, auth.GetMe)
 
 	// User Routes
 	app.Post("/users", users.CreateUser)
@@ -71,20 +73,20 @@ func SetupRoutes(app *fiber.App) {
 	app.Put("/userupdate/:id", users.UpdateUser)
 
 	// Book Routes
-	app.Post("/api/book", books.AddBook)
-	app.Put("/api/bookup/:id", books.UpdateBook)
-	app.Delete("/api/bookdel/:id", books.DeleteBook)
+	app.Post("/api/book", middleware.DeserializeUser, authorization.AuthLibrarian, books.AddBook)
+	app.Put("/api/bookup/:id", middleware.DeserializeUser, authorization.AuthLibrarian, books.UpdateBook)
+	app.Delete("/api/bookdel/:id", middleware.DeserializeUser, authorization.AuthLibrarian, books.DeleteBook)
 	app.Get("/api/bookget/:id", func(c *fiber.Ctx) error {
 		return books.GetBook(c, cacheInstance)
 	})
-	app.Get("/api/books/search", books.SearchBooks)
+	app.Get("/api/books/search", middleware.DeserializeUser, authorization.AuthLibrarian, books.SearchBooks)
 
 	// Issue Routes
-	app.Post("/api/issue", issues.AddIssue)
-	app.Get("/api/issuegethis/:id", issues.GetIssueHistory)
-	app.Get("/api/issuegetid/:id", issues.GetIssue)
-	app.Put("/api/issueup/:id", issues.UpdateIssue)
-	app.Put("/api/issueupfs/:id", issues.UpdateFineStatus)
+	app.Post("/api/issue", middleware.DeserializeUser, authorization.AuthMember, issues.AddIssue)
+	app.Get("/api/issuegethis/:id", middleware.DeserializeUser, authorization.AuthMember, issues.GetIssueHistory)
+	app.Get("/api/issuegetid/:id", middleware.DeserializeUser, authorization.AuthLibrarian, issues.GetIssue)
+	app.Put("/api/issueup/:id", middleware.DeserializeUser, authorization.AuthMember, issues.UpdateIssue)
+	app.Put("/api/issueupfs/:id", middleware.DeserializeUser, authorization.AuthLibrarian, issues.UpdateFineStatus)
 }
 
 /*

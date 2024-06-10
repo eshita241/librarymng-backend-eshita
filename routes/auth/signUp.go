@@ -48,11 +48,12 @@ func SignUpUser(c *fiber.Ctx) error {
 		Email:    strings.ToLower(payload.Email), // Convert email to lowercase for consistency.
 		Password: string(hashedPassword),         // Store the hashed password.
 		Photo:    &payload.Photo,                 // Store the photo URL if provided.
-		//We used pointer here because we have access over updating photos, also to store small data instead of large data.
+		Role: &payload.Role,
 	}
 
 	// Insert the new user record into the database.
 	result := database.Database.Db.Create(&newUser)
+
 
 	// Handle potential database errors.
 	if result.Error != nil && strings.Contains(result.Error.Error(), "duplicate key value violates unique") {

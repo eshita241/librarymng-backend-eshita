@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"strings"
 
+	"librarymng-backend/database"
+	"librarymng-backend/initializers"
+	"librarymng-backend/models"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt"
-	"github.com/wpcodevo/golang-fiber-jwt/initializers"
-	"github.com/wpcodevo/golang-fiber-jwt/models"
 )
 
 func DeserializeUser(c *fiber.Ctx) error {
@@ -53,11 +55,11 @@ func DeserializeUser(c *fiber.Ctx) error {
 	}
 
 	// Retrieve user information from the database based on token claims.
-	var user models.User
-	initializers.DB.First(&user, "id = ?", fmt.Sprint(claims["sub"]))
+	var user models.Auth
+	database.Database.Db.First(&user, "id = ?", fmt.Sprint(claims["sub"]))
 
 	// Verify if the user associated with the token still exists.
-	if user.ID.String() != fmt.Sprint(claims["sub"]) {
+	if user.ID == nil || *user.ID != uint(claims["sub"].(float64)) {
 		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{"status": "fail", "message": "the user belonging to this token no longer exists"})
 	}
 

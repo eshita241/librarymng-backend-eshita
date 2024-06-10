@@ -11,7 +11,7 @@ type Auth struct {
 	Name      string     `gorm:"type:varchar(100);not null"`
 	Email     string     `gorm:"type:varchar(100);uniqueIndex;not null"`
 	Password  string     `gorm:"type:varchar(100);not null"`
-	Role      *string    `gorm:"type:varchar(50);default:'user';not null"`
+	Role      *string    `gorm:"type:varchar(50);default:'member';not null"`
 	Provider  *string    `gorm:"type:varchar(50);default:'local';not null"`
 	Photo     *string    `gorm:"not null;default:'default.png'"`
 	Verified  *bool      `gorm:"not null;default:false"`
@@ -78,6 +78,8 @@ type SignUpInput struct {
 	Password        string `json:"password" validate:"required,min=8"`
 	PasswordConfirm string `json:"passwordConfirm" validate:"required,min=8"`
 	Photo           string `json:"photo"`
+	Role            string    `json:"role"`
+
 }
 
 type SignInInput struct {
