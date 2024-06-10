@@ -16,19 +16,20 @@ func SearchBooks(c *fiber.Ctx) error {
 	var books []models.Book
 	var result *gorm.DB
 
-	switch searchType {
-	case "title":
-		result = database.Database.Db.Where("title LIKE ?", "%"+query+"%").Find(&books)
-	case "author":
-		result = database.Database.Db.Where("author LIKE ?", "%"+query+"%").Find(&books)
-	case "publisher":
-		result = database.Database.Db.Where("publisher LIKE ?", "%"+query+"%").Find(&books)
-	default:
+	allowedSearchTypes := map[string]bool{
+		"name":      true,
+		"author":    true,
+		"publisher": true,
+	}
+
+	if _, ok := allowedSearchTypes[searchType]; !ok {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"status":  "error",
 			"message": "Invalid search type",
 		})
 	}
+
+	result = database.Database.Db.Where(searchType+" LIKE ?", "%"+query+"%").Find(&books)
 
 	if result.Error != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
