@@ -73,13 +73,13 @@ func SetupRoutes(app *fiber.App) {
 	app.Put("/userupdate/:id", users.UpdateUser)
 
 	// Book Routes
-	app.Post("/api/book", middleware.DeserializeUser, authorization.AuthLibrarian, books.AddBook)
+	app.Post("/api/book" /*middleware.DeserializeUser, authorization.AuthLibrarian,*/, books.AddBook)
 	app.Put("/api/bookup/:id", middleware.DeserializeUser, authorization.AuthLibrarian, books.UpdateBook)
 	app.Delete("/api/bookdel/:id", middleware.DeserializeUser, authorization.AuthLibrarian, books.DeleteBook)
 	app.Get("/api/bookget/:id", func(c *fiber.Ctx) error {
 		return books.GetBook(c, cacheInstance)
 	})
-	app.Get("/api/books/search", middleware.DeserializeUser, authorization.AuthLibrarian, books.SearchBooks)
+	app.Get("/api/books/search", books.SearchBooks)
 
 	// Issue Routes
 	app.Post("/api/issue", middleware.DeserializeUser, authorization.AuthMember, issues.AddIssue)
